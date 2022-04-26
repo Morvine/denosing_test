@@ -63,7 +63,7 @@ if __name__ == "__main__":
 
         file_name = os.path.basename(path)
 
-        prop = unet(data_s)[1]
+        prop = unet.forward(data_s)[1]
         _, cls = prop.topk(1, dim=1)
         cls = int(cls.squeeze())
         if cls:
@@ -72,7 +72,7 @@ if __name__ == "__main__":
                 data = torch.from_numpy(i).unsqueeze(0).unsqueeze(0).float()
                 if torch.cuda.is_available():
                     data = data.cuda()
-                clear_i = unet(data)[0].squeeze()
+                clear_i = unet.forward(data)[0].squeeze()
                 clear.append(clear_i.detach().cpu().numpy())
 
             new_name = os.path.splitext(file_name)[0] + "_clean" + os.path.splitext(file_name)[1]
